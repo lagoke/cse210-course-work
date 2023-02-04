@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
 namespace JournalApp
 {
     class Program
@@ -27,11 +31,13 @@ namespace JournalApp
 
             var choice = Console.ReadLine();
 
+           // string question_written = "";
+
             if (choice == "1")
             {
                 Write_and_Display obj = new Write_and_Display();
-                obj.writeRandomQuestions();
-                //string question_written = obj.writeRandomQuestions();
+                // obj.writeRandomQuestions();
+                string question_written = obj.writeRandomQuestions();
 
                 var user_response = Console.ReadLine();
 
@@ -42,7 +48,7 @@ namespace JournalApp
 
                 //string text_to_store = "\n";
 
-                using (StreamWriter outputFile = new StreamWriter(fileName))
+                using (StreamWriter outputFile = File.AppendText(fileName))
                 {
                     // Add the question displayed to the file
                     // outputFile.WriteLine(helpful_questions.ElementAt(_someRandomjournal_question));
@@ -53,7 +59,8 @@ namespace JournalApp
 
                     //string my_new_text = outputFile.WriteLine($"Date:  { dateText} - Prompt: \n { user_response} ").ToString();
                     //text_to_store += my_new_text;
-                   outputFile.WriteLine($"Date:  { dateText} - Prompt: \n { user_response} ");
+                 outputFile.WriteLine($"Date:  { dateText} - Prompt: { question_written} \n { user_response} \n ");
+
 
                 }
 
@@ -71,12 +78,20 @@ namespace JournalApp
 
             if (choice == "3")
             {
+               
                 Console.WriteLine("What is the filename?");
                 var supplied_filename = Console.ReadLine();
 
 
                 Save_and_Load obj3 = new Save_and_Load();
                 obj3.load_journal(supplied_filename);
+
+
+                /*
+                Write_and_Display obj2 = new Write_and_Display();
+                obj2.display_stored_question_and_answer();
+                */
+
             }
 
 

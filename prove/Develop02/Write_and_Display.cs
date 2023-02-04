@@ -8,10 +8,8 @@ public class Write_and_Display
     //Demonstration of a member variable
     int _someRandomjournal_question;
 
-    public void writeRandomQuestions()
+    public string writeRandomQuestions()
     {
-
-       
 
         List<string> helpful_questions = new List<string>();
 
@@ -32,7 +30,7 @@ public class Write_and_Display
 
         Console.WriteLine(" {0}", helpful_questions.ElementAt(_someRandomjournal_question));
 
-        //return();
+        return helpful_questions.ElementAt(_someRandomjournal_question);
 
 
     }
@@ -41,8 +39,8 @@ public class Write_and_Display
     public void display_stored_question_and_answer()
     {
 
-        string filename = "myjornal.txt";
-        string[] lines = System.IO.File.ReadAllLines(filename);
+        string filename1 = "myjornal.txt";
+        string[] lines = System.IO.File.ReadAllLines(filename1);
 
         foreach (string line in lines)
         {
