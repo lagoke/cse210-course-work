@@ -9,7 +9,7 @@ class Program
     static void Main()
     {
         UserJournal journal = new UserJournal();
-        Console.WriteLine("Welcome to the Journal Program");  //Only display's once
+        Console.WriteLine("Welcome to the Journal Program");  
         Console.WriteLine();
         while (true)
         {
