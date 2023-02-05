@@ -1,123 +1,159 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 
-namespace JournalApp
+
+class Program
 {
-    class Program
+    static void Main()
     {
-        static void Main(string[] args)
+        UserJournal journal = new UserJournal();
+        Console.WriteLine("Welcome to the Journal Program");  //Only display's once
+        Console.WriteLine();
+        while (true)
         {
-            // Console.WriteLine("Hello World!");
+            Console.WriteLine("Menu");  //Menu options
+            Console.WriteLine("1. Create new entry");
+            Console.WriteLine("2. Display journal");
+            Console.WriteLine("3. Save journal to file");
+            Console.WriteLine("4. Load journal from file");
+            Console.WriteLine("5. Exit");
+            Console.Write("Select from the menu options: ");
 
-            string welcome = "Welcome to the Journal Program!";
-            string msg_to_appeal = "Please select one of the following choices:";
-            string first_choice = "1. Write";
-            string second_choice = "2. Display";
-            string third_choice = "3. Load";
-            string fourth_choice = "4. Save";
-            string fifth_choice = "5. Quit";
 
-            string ask_what_to_do = "What would you like to do?";
+            //Converts user's entry to an integer
+            int choice = int.Parse(Console.ReadLine());
 
-            Console.WriteLine(welcome);
-            Console.WriteLine(msg_to_appeal);
-            Console.WriteLine(first_choice);
-            Console.WriteLine(second_choice);
-            Console.WriteLine(third_choice);
-            Console.WriteLine(fourth_choice);
-            Console.WriteLine(fifth_choice);
-            Console.WriteLine(ask_what_to_do);
-
-            var choice = Console.ReadLine();
-
-           // string question_written = "";
-
-            if (choice == "1")
+            //If the 1st option, it creates new entry as specified in the menu
+            Console.WriteLine();
+            if (choice == 1)
             {
-                Write_and_Display obj = new Write_and_Display();
-                // obj.writeRandomQuestions();
-                string question_written = obj.writeRandomQuestions();
-
-                var user_response = Console.ReadLine();
-
-                DateTime theCurrentTime = DateTime.Now;
-                string dateText = theCurrentTime.ToShortDateString();
-
-                string fileName = "myjornal.txt";
-
-                //string text_to_store = "\n";
-
-                using (StreamWriter outputFile = File.AppendText(fileName))
-                {
-                    // Add the question displayed to the file
-                    // outputFile.WriteLine(helpful_questions.ElementAt(_someRandomjournal_question));
-
-                    // Add the user's response to the displayed question inside the file
-
-
-
-                    //string my_new_text = outputFile.WriteLine($"Date:  { dateText} - Prompt: \n { user_response} ").ToString();
-                    //text_to_store += my_new_text;
-                 outputFile.WriteLine($"Date:  { dateText} - Prompt: { question_written} \n { user_response} \n ");
-
-
-                }
-
+                journal.NewEntry();
             }
-
-            if (choice == "2")
+            else if (choice == 2)
             {
-                Write_and_Display obj2 = new Write_and_Display();
-                obj2.display_stored_question_and_answer();
+                journal.DisplayJournal();
             }
-
-
-
-
-
-            if (choice == "3")
+            else if (choice == 3)
             {
-               
-                Console.WriteLine("What is the filename?");
-                var supplied_filename = Console.ReadLine();
-
-
-                Save_and_Load obj3 = new Save_and_Load();
-                obj3.load_journal(supplied_filename);
-
-
-                /*
-                Write_and_Display obj2 = new Write_and_Display();
-                obj2.display_stored_question_and_answer();
-                */
-
+                Console.Write("Enter a filename: "); //If the 3rd option is chosen, it asks for the filename
+                string filename = Console.ReadLine();
+                journal.SaveJournal(filename);
+                Console.WriteLine("Journal saved to " + filename);
             }
-
-
-
-
-            if (choice == "4")
+            else if (choice == 4)
             {
-                Console.WriteLine("What is the filename?");
-                var supplied_filename = Console.ReadLine();
-
-
-                Save_and_Load obj3 = new Save_and_Load();
-                obj3.save_journal(supplied_filename);
+                Console.Write("Enter a filename: ");
+                string filename = Console.ReadLine();
+                journal.LoadJournal(filename);
+                Console.WriteLine("Journal loaded from " + filename);
             }
-
-
-
-            if (choice == "5")
+            else if (choice == 5)
             {
-                System.Environment.Exit(0);
+                break;
             }
-
-
-
-
         }
-
     }
+}
+
+
+class UserEntry   
+{
+    public string _promptUser;
+    public string _responseUser;
+    public DateTime _dateUser;
+
+    public string _locationUser;   
+    public UserEntry(string prompt, string response, DateTime date, string location)
+    {
+        this._promptUser = prompt;   
+        this._responseUser = response;
+        this._dateUser = date;
+        this._locationUser = location;  
+    }
+}
+
+class UserJournal   
+{
+    private List<UserEntry> entries = new List<UserEntry>();
+
+    //Creates a list of prompts
+    public List<string> prompts = new List<string> {
+        "Who was the most interesting person I interacted with today?",
+        "What was the best part of my day?",
+        "How did I see the hand of the Lord in my life today?",
+        "What was the strongest emotion I felt today?",
+        "If I had one thing I could do over today, what would it be?",
+        "What are you mostly grateful for?",
+        "What would have accomplished by the end of the week?"
+    };
+
+    /*NewEntry() method in the Journal class is used to create a new journal entry.
+     */
+    public void NewEntry()
+    {
+        Random rnd = new Random();
+        int promptIndex = rnd.Next(prompts.Count);
+        string prompt = prompts[promptIndex];
+        Console.WriteLine(prompt);
+        string response = Console.ReadLine();
+
+        
+
+        Console.WriteLine("Where did you make this entry? ");
+        string location = Console.ReadLine();
+        UserEntry entry = new UserEntry(prompt, response, DateTime.Now, location);
+        entries.Add(entry);
+    }
+
+    /*The DisplayJournal() method in the Journal class */
+    public void DisplayJournal()
+    {
+        foreach (UserEntry entry in entries)
+        {
+            Console.WriteLine("Prompt: " + entry._promptUser);
+            Console.WriteLine("Response: " + entry._responseUser);
+            Console.WriteLine("Date: " + entry._dateUser);
+            Console.WriteLine("Location: " + entry._locationUser); 
+            Console.WriteLine();
+        }
+    }
+
+    public void SaveJournal(string filename)
+    {
+        using (StreamWriter writer = new StreamWriter(filename))
+        {
+            foreach (UserEntry entry in entries)
+            {
+                writer.WriteLine(entry._promptUser);
+                writer.WriteLine(entry._responseUser);
+                writer.WriteLine(entry._dateUser);
+                writer.WriteLine(entry._locationUser); 
+            }
+        }
+    }
+
+
+    /* LoadJournal(string filename) method in the Journal class */
+    public void LoadJournal(string filename)
+    {
+        entries.Clear();
+        using (StreamReader reader = new StreamReader(filename))
+        {
+            while (!reader.EndOfStream)
+            {
+                string prompt = reader.ReadLine();
+                string response = reader.ReadLine();
+                string dateString = reader.ReadLine();
+                string location = reader.ReadLine();  
+                DateTime date = DateTime.Parse(dateString);
+                UserEntry entry = new UserEntry(prompt, response, date, location);
+                entries.Add(entry);
+            }
+        }
+    }
+
+
+
 }
