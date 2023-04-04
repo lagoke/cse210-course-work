@@ -1,32 +1,41 @@
-// using System;
-
-// class Program
-// {
-//     static void Main(string[] args)
-//     {
-//         Console.WriteLine("Hello Foundation4 World!");
-//     }
-// }
-
 using System;
 using System.Collections.Generic;
 
+namespace ExerciseTracking
+{
 
 
 public abstract class Activity
 {
-	public Activity()
+	private string _date;
+	private int _lengthOfActivity;
+	public Activity(string date, int lengthOfActivity)
 	{
+		_date = date;
+		_lengthOfActivity = lengthOfActivity;
 	}
 
 
-	private string _date;
-	private int _lengthOfActivity;
+	public string GetDate()
+	{
+		return _date;
+	}
 
 
+	public int GetLengthOfActivity()
+	{
+		return _lengthOfActivity;
+	}
 
+
+	public abstract float GetDistance();
+
+	public abstract float GetSpeed();
+
+	public abstract float GetPace();
 
 	public abstract string GetSummary();
+
 
 
 
@@ -36,26 +45,38 @@ public abstract class Activity
 
 public class Running: Activity
 {
-	public Running()
+	private float _distanceValue;
+	public Running(string date, int lengthOfActivity, float distValue)
+				: base(date, lengthOfActivity)
 	{
+		_distanceValue = distValue;
 	}
 
 
 
+	public override float GetDistance()
+    {
+	
+		return _distanceValue;
 
-	private string _distance;
-
-
-
-	public string GetDistance()
-	{
-		return _distance;
 	}
 
 
-	public string SetDistance()
+	public override float GetSpeed()
 	{
-		return _distance;
+		int passedLengthActivity = GetLengthOfActivity();
+		float calculatedDistance = GetDistance();
+		float speedCalculated = calculatedDistance / passedLengthActivity;
+		return speedCalculated;
+	}
+
+	public override float GetPace()
+	{
+
+		float passedSpeed = GetSpeed();
+		float paceCalculated = 60/ passedSpeed;
+
+		return paceCalculated;
 	}
 
 
@@ -63,40 +84,55 @@ public class Running: Activity
 	public override string GetSummary()
 	{
 
-		return _distance;
+		return GetDate() + " Running(" + GetLengthOfActivity()  +"min" + ") -" + "Distance " + _distanceValue + "miles" + ", " + "Speed " + GetSpeed() + "mph" + ", " + "Pace: " + GetPace() + "min per mile";
 	}
 
 
 
-
-
-
-
-
 }
+
+
+
+
 
 public class StationaryBicycle: Activity
 {
-	public StationaryBicycle()
+
+
+	private float _distanceValue;
+	public StationaryBicycle(string date, int lengthOfActivity, float distValue)
+				: base(date, lengthOfActivity)
 	{
+		_distanceValue = distValue;
 	}
 
 
 
-
-	private string _speed;
-
-
-
-	public string GetSpeed()
+	public override float GetDistance()
 	{
-		return _speed;
+
+		return _distanceValue;
+
 	}
 
 
-	public string SetSpeed()
+	public override float GetSpeed()
 	{
-		return _speed;
+		int passedLengthActivity = GetLengthOfActivity();
+		float calculatedDistance = GetDistance();
+		float speedCalculated = calculatedDistance / passedLengthActivity;
+		return speedCalculated;
+	}
+
+	public override float GetPace()
+	{
+
+		int passedLengthActivity = GetLengthOfActivity();
+		float calculatedDistance = GetDistance();
+
+		float paceCalculated = passedLengthActivity / calculatedDistance;
+
+		return paceCalculated;
 	}
 
 
@@ -104,31 +140,60 @@ public class StationaryBicycle: Activity
 	public override string GetSummary()
 	{
 
-		return _speed;
+		return GetDate() + " StationaryBicycle(" + GetLengthOfActivity() + "min" + ") -" + "Distance " + _distanceValue + "km" + ", " + "Speed " + GetSpeed() + "kph" + ", " + "Pace: " + GetPace() + "min per km";
 	}
+
+
+
+
+
 
 }
 
+
+
+
+
 public class Swimming: Activity
 {
-	public Swimming()
+	private float _swimmingLaps;
+	public Swimming(string date, int lengthOfActivity, float swimmingLaps)
+				: base(date, lengthOfActivity)
 	{
+		_swimmingLaps = swimmingLaps;
 	}
 
 
-	private string _pace;
 
-
-
-	public string GetPace()
+	public float GetSwimmingLaps()
 	{
-		return _pace;
+
+		return _swimmingLaps;
+
 	}
 
 
-	public string SetPace()
+
+	public override float GetDistance()
 	{
-		return _pace;
+		float distanceCalculated = (GetSwimmingLaps() * 50) / 1000;
+		return distanceCalculated;
+	}
+	public override float GetSpeed()
+	{
+		int passedLengthActivity = GetLengthOfActivity();
+		float calculatedDistance = GetDistance();
+		float speedCalculated = (calculatedDistance / passedLengthActivity) * 60;
+		return speedCalculated;
+	}
+
+	public override float GetPace()
+	{
+
+		float passedSpeed = GetSpeed();
+		float paceCalculated = 60 / passedSpeed;
+
+		return paceCalculated;
 	}
 
 
@@ -136,11 +201,53 @@ public class Swimming: Activity
 	public override string GetSummary()
 	{
 
-		return _pace;
+		return GetDate() + " Swimming(" + GetLengthOfActivity() + "min" + ") -" + "Distance " + GetDistance() + "miles" + ", " + "Speed " + GetSpeed() + "mph" + ", " + "Pace: " + GetPace() + "min per mile";
 	}
 
 
+}
 
 
 
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Create Running activity
+            // Create the object of the Running class
+            Running runObject = new Running("03 Nov 2022", 30, 15);
+
+            // Create StationaryBicycle activity
+            // Create the object of the StationaryBicycle class
+            StationaryBicycle sbicycleObject = new StationaryBicycle("03 Nov 2022", 50, 18);
+
+            // Create Swimming activity
+            // Create the object of the Swimming class
+            Swimming swimObject = new Swimming("03 Nov 2022", 60, 10);
+
+            List<string> _listOfActivities = new List<string>();
+            _listOfActivities.Add("Running Activity");
+            _listOfActivities.Add("StationaryBicycle Activity");
+            _listOfActivities.Add("Swimming Activity");
+
+
+             foreach (string activitysample in _listOfActivities)
+            {
+                
+                
+               
+                Console.WriteLine();
+             
+                
+            }
+            Console.Write(runObject.GetSummary());
+            Console.WriteLine();
+
+            Console.Write(sbicycleObject.GetSummary());
+            Console.WriteLine();
+
+            Console.Write(swimObject.GetSummary());
+
+        }
+    }
 }

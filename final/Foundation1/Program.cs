@@ -1,19 +1,8 @@
-// using System;
-
-// class Program
-// {
-//     static void Main(string[] args)
-//     {
-//         Console.WriteLine("Hello Foundation1 World!");
-//     }
-// }
-
-
 using System;
 using System.Collections.Generic;
 
-// namespace YouTubeVideos
-// {
+namespace YouTubeVideos
+{
 
 
 
@@ -50,8 +39,6 @@ public class Video
 
 
 
-
-
 public class Comment
 {
 
@@ -72,11 +59,13 @@ public class Comment
 
 
 
+
     class Program
     {
         static void Main(string[] args)
         {
             // Console.WriteLine("Hello World!");
+
 
 
             //First set of Comments
@@ -108,6 +97,20 @@ public class Comment
             commentObject2c._commentText = "Fantastic video";
 
 
+            //Third set of Comments
+
+            Comment commentObject3a = new Comment();
+            commentObject3a._nameOfWhoCommented = "Olagoke Amiola";
+            commentObject3a._commentText = "Wonderful video. It's an award-winning video!";
+
+            Comment commentObject3b = new Comment();
+            commentObject3b._nameOfWhoCommented = "John Davies";
+            commentObject3b._commentText = "Awesome! Good thinking! Good product! ";
+
+            Comment commentObject3c = new Comment();
+            commentObject3c._nameOfWhoCommented = "Babara Hope";
+            commentObject3c._commentText = "Great video";
+
             //First Video 
 
             Video videoObject = new Video();
@@ -138,7 +141,22 @@ public class Comment
 
             videoObject2.DisplayVideoInfo();
 
+            Console.WriteLine("\n");
+
+            //Third Video 
+
+            Video videoObject3 = new Video();
+            videoObject3._title = "Demystifying Abstration in C#";
+            videoObject3._author = "George Witson";
+            videoObject3._videoLength = 90;
+
+            videoObject3._comments.Add(commentObject3a);
+            videoObject3._comments.Add(commentObject3b);
+            videoObject3._comments.Add(commentObject3c);
+
+            videoObject3.DisplayVideoInfo();
+
 
         }
     }
-
+}

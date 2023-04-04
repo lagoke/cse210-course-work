@@ -1,15 +1,9 @@
-// using System;
-
-// class Program
-// {
-//     static void Main(string[] args)
-//     {
-//         Console.WriteLine("Hello Foundation2 World!");
-//     }
-// }
-
-
 using System;
+
+namespace OnlineOrdering
+{
+
+
 
 
 public class Address
@@ -31,9 +25,9 @@ public class Address
 	}
 
 
-	public string SetStreet()
+	public void SetStreet(string Street)
 	{
-		return _street;
+		_street = Street;
 	}
 
 
@@ -44,10 +38,11 @@ public class Address
 	}
 
 
-	public string SetCity()
+	public void SetCity(string City)
 	{
-		return _city;
+		_city = City;
 	}
+
 
 
 
@@ -57,9 +52,9 @@ public class Address
 	}
 
 
-	public string SetState()
+	public void SetState(string State)
 	{
-		return _stateOrProvince;
+		_stateOrProvince = State;
 	}
 
 
@@ -70,9 +65,9 @@ public class Address
 	}
 
 
-	public string SetCountry()
+	public void SetCountry(string Country)
 	{
-		return _country;
+		_country = Country;
 	}
 
 
@@ -81,20 +76,36 @@ public class Address
 	public string FullAddress()
     {
 
-		return _street + _city + _stateOrProvince + _country;
+		return _street + "," + _city + "," + _stateOrProvince + "," + _country;
 	}
 
 
 
-	public bool CheckCountryUSA(bool USA)
+	public string CheckCountryUSA(string county)
 	{
-		bool country = USA;
+		string country_passed = county;
+		//string country_spplied;
 
-		return country;
+		/*
+			if (country_passed == "USA" || country_passed == "usa")
+			{
+				string country_spplied = "USA";
+				bool checkCountry = true;
+
+			}
+
+			*/
+
+		return country_passed;
+
 	}
 
 
 }
+
+
+
+
 
 
 
@@ -105,7 +116,7 @@ public class Customer
 	}
 
 	private string _name;
-	Address addressObject;
+
 
 	public string GetName()
 	{
@@ -113,22 +124,17 @@ public class Customer
 	}
 
 
-	public string SetName()
+	public void SetName(string Name)
 	{
-		return _name;
+		_name = Name;
 	}
 
 
-
-	public bool CheckCountryUSA(bool USA)
-	{
-		bool country = USA;
-
-		return country;
-	}
 
 
 }
+
+
 
 
 
@@ -151,10 +157,12 @@ public class Order
 	}
 
 
-	public string SetPakingLabel()
+	public void SetPakingLabel(string parklabel)
 	{
-		return _pakingLabel;
+		_pakingLabel = parklabel;
 	}
+
+
 
 
 	public string GetShippingLabel()
@@ -163,9 +171,9 @@ public class Order
 	}
 
 
-	public string SetShippingLabel()
+	public void SetShippingLabel(string shoplabel)
 	{
-		return _shippingLabel;
+		_shippingLabel = shoplabel;
 	}
 
 
@@ -190,6 +198,11 @@ public class Order
 }
 
 
+
+
+
+
+
 public class Product
 {
 	public Product()
@@ -209,9 +222,9 @@ public class Product
 	}
 
 
-	public string SetName()
+	public void SetName(string Name)
 	{
-		return _name;
+		_name = Name;
 	}
 
 
@@ -224,9 +237,9 @@ public class Product
 	}
 
 
-	public string SetProductID()
+	public void SetProductID(string pID)
 	{
-		return _productID;
+		_productID = pID;
 	}
 
 
@@ -239,9 +252,9 @@ public class Product
 	}
 
 
-	public float SetPrice()
+	public void SetPrice(float pr)
 	{
-		return _price;
+		_price = pr;
 	}
 
 
@@ -252,16 +265,16 @@ public class Product
 	}
 
 
-	public int SetQuantity()
+	public void SetQuantity(int qty)
 	{
-		return _quantity;
+		_quantity = qty;
 	}
 
 
 
-	public float CalculateProductPrice(float pprice)
+	public float CalculateProductPrice()
 	{
-		float productPrice = pprice;
+		float productPrice = _price * _quantity;
 
 		return productPrice;
 	}
@@ -269,30 +282,130 @@ public class Product
 
 
 
-
-
-
-
 }
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
 
     class Program
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Hello World!");
+
+
+
+            Console.WriteLine("==========================");
+            Console.WriteLine("Order Details");
+            Console.WriteLine("==========================");
+
+
+            //Create a sample product
+            Console.WriteLine("==========================");
+            Console.WriteLine("First Product");
+            Console.WriteLine("==========================");
+
+            Product p = new Product();
+            p.SetName("Wrist Watch");
+            p.SetProductID("001");
+            p.SetPrice(100);
+            p.SetQuantity(2);
+            float calculatedPrice = p.CalculateProductPrice();
+
+            Console.WriteLine("Product Name: " + p.GetName() + "\n");
+            Console.WriteLine("Product ID: " + p.GetProductID() + "\n");
+            Console.WriteLine("Product Price: " + p.GetPrice() + "\n");
+            Console.WriteLine("Product Quantity: " + p.GetQuantity() + "\n");
+            Console.WriteLine("Calculated Price: " + calculatedPrice + "\n");
+
+            //Console.WriteLine("\n");
+
+            Console.WriteLine("==========================");
+            Console.WriteLine("Secod Product");
+            Console.WriteLine("==========================");
+
+
+
+            //Create another sample product
+
+            Product p2 = new Product();
+            p2.SetName("Android Phone");
+            p2.SetProductID("002");
+            p2.SetPrice(1200);
+            p2.SetQuantity(3);
+            float calculatedPrice2 = p2.CalculateProductPrice();
+
+            Console.WriteLine("Product Name: " + p2.GetName() + "\n");
+            Console.WriteLine("Product ID: " + p2.GetProductID() + "\n");
+            Console.WriteLine("Product Price: " + p2.GetPrice() + "\n");
+            Console.WriteLine("Product Quantity: " + p2.GetQuantity() + "\n");
+            Console.WriteLine("Calculated Price: " + calculatedPrice2 + "\n");
+
+
+
+            // Console.WriteLine("==========================");
+            Console.WriteLine("Customer Information");
+            Console.WriteLine("==========================");
+
+            //Add a Customer
+            Customer c1 = new Customer();
+            c1.SetName("Olagoke Amiola");
+
+            //Supply customer address via the Address class
+            Address a1 = new Address();
+            a1.SetStreet("Broad street");
+            a1.SetCity("Darlington");
+            a1.SetState("New York");
+            a1.SetCountry("USA");
+
+           string customerAddress = a1.FullAddress();
+            string checkCountryResult = a1.CheckCountryUSA(a1.GetCountry());
+
+            Console.WriteLine("Customer Name: " + p2.GetName() + "\n");
+            Console.WriteLine("Customer Address: " + customerAddress + "\n");
+
+
+            Console.WriteLine("Total Price:");
+            Console.WriteLine("==========================");
+
+            float accumulatedPrice = calculatedPrice + calculatedPrice2;
+
+            //Determine the one-time shopping cost and calculate 
+
+           
+            if(checkCountryResult == "USA" || checkCountryResult == "usa")
+            {
+                float oneTimeShop = 5;
+                float totalPrice = accumulatedPrice + oneTimeShop;
+                Console.WriteLine("Grand Total Price : " + totalPrice + "\n");
+
+            }
+
+            else
+            {
+                float oneTimeShop = 35;
+                float totalPrice = accumulatedPrice + oneTimeShop;
+                Console.WriteLine("Grand Total Price : " + totalPrice + "\n");
+            }
+
+
+
+
+            Console.WriteLine("Parking Label:");
+            Console.WriteLine("==========================");
+
+            Console.WriteLine("Product Name: " + p2.GetName() + "\n");
+            Console.WriteLine("Product ID: " + p2.GetProductID() + "\n");
+
+            Console.WriteLine("Product Name: " + p2.GetName() + "\n");
+            Console.WriteLine("Product ID: " + p2.GetProductID() + "\n");
+
+
+            Console.WriteLine("Shipping Label:");
+            Console.WriteLine("==========================");
+
+            Console.WriteLine("Customer Name: " + p2.GetName() + "\n");
+            Console.WriteLine("Customer Address: " + customerAddress + "\n");
+
+
+
+
         }
     }
+}
